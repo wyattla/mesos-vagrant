@@ -67,10 +67,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "slave1" do |slave1|
     slave1.vm.box = "ubuntu/trusty64"
+    slave1.vm.network "private_network", ip: "192.168.50.5"
+    slave1.vm.provision :puppet do |puppet|
+      puppet.module_path = "modules"
+      puppet.manifests_path = "manifests"
+      puppet.hiera_config_path = "hiera.yaml"
+      puppet.manifest_file  = "slave1.pp"
+    end
   end
 
   config.vm.define "slave2" do |slave2|
     slave2.vm.box = "ubuntu/trusty64"
+    slave2.vm.network "private_network", ip: "192.168.50.6"
+    slave2.vm.provision :puppet do |puppet|
+      puppet.module_path = "modules"
+      puppet.manifests_path = "manifests"
+      puppet.hiera_config_path = "hiera.yaml"
+      puppet.manifest_file  = "slave2.pp"
+    end
+
   end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
